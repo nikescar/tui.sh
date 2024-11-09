@@ -1,0 +1,46 @@
+[data-editor] {
+  display: flex;
+  grid-template-columns: 3em auto;
+  width: 80rem;
+  overflow-y: auto;
+  height: 60rem;
+  background: hsl(200 20% 10%);
+  white-space: pre-wrap;
+  font: normal normal 14px/1.4 monospace;
+  .textarea,
+  .numbers {
+    /* inherit font size from parent */
+    display: inline-block;
+    font: inherit;
+    height: max-content;
+    padding: 0.5rem;
+    border: 0;
+    outline: 0;
+    background: #0000;
+    overflow: hidden;
+    resize: none;
+  }
+  .textarea {
+    flex: 1;
+    [data-editor="html"] & {
+      color: hsl(200 70% 60%);
+    }
+    [data-editor="css"] & {
+      color: hsl(070 70% 60%);
+    }
+  }
+  .numbers {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid hsl(200 90% 90% / 0.2);
+    min-height: 100%;
+  }
+  .numbers span {
+    counter-increment: linenumber;
+    &::before {
+      content: counter(linenumber);
+      color: hsl(200 70% 90%);
+    }
+  }
+}

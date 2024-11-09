@@ -1,0 +1,131 @@
+---
+bkit: # root name.
+  _sha256sum: https://pastebin.com/raw/qpWzB2GD # hash for normal operation/ tui.sh, yaml, web.tar.gz
+  _tui_sh_config:
+    tui_httpd_bin: darkhttpd # darkhttpd or caddy
+    tui_web_dir: ./.tui_web
+    tui_log_dir: ./.tui_web/var/log
+    tui_access_log: access.log
+    tui_binding_ip: 127.0.0.1
+    tui_posting_address: localhost
+    tui_web_port: 58080
+    tui_basic_auth: test:test
+    tui_run_dir: ./.tui_web/var/run
+    tui_net_dir: ./.tui_web/var/net
+    transfer_field: url # or useragent
+  _globalkeycode: "" # ctrl-t => push together, ctrl+t => ctrl keyup and t keydown
+  _keycode: k
+  _description: various setup scripts for security. # menu description
+  _cmd:
+    - echo "bkit" && echo " - secured services like nextdns in your environment." && echo " - offer install, configure, control easily in TUI and WEB" && printf '\n\n'
+    - declare -p
+    - env
+  status:
+    _keycode: s
+    _description: system status info from neofetch by dylanaraps.
+    _cmd:
+      - echo "status" && echo " - fun: fun things with bash." && printf '\n\n'
+      - ./tui_sh_yaml_tools/neofetch ---backend off --no_config --stdout
+    fun:
+      _keycode: f
+      _description: fun elements written in bash.
+      bloks:
+        _keycode: b
+        _description: bloks in colors. provided by owl4ce.
+        _cmd: ./tui_sh_yaml_tools/fun/bloks
+      colorscheme:
+        _keycode: c
+        _description: coloful scheme. provided by xero.
+        _cmd: ./tui_sh_yaml_tools/fun/colorscheme
+      ghosts:
+        _keycode: g
+        _description: ghosts in multiple colors. provided by lolilolicon.
+        _cmd: ./tui_sh_yaml_tools/fun/ghosts
+      sysinfo:
+        _keycode: s
+        _description: sysinfo. provided by xero.
+        _cmd: ./tui_sh_yaml_tools/fun/sysinfo
+  setup:
+    _keycode: e
+    _description: various setup scripts for security.
+    SYSTEM:
+      _keycode: S
+      _description: utilities for system.
+      bash-it:
+        _keycode: b
+        _description: a framework for using, developing and maintaining shell scripts and custom commands for your daily work.
+      ohmybash:
+        _keycode: o
+        _description: managing your bash configuration.
+      cdc:
+        _keycode: d
+        _description: cd to user-defined directories from anywhere.
+      lvim:
+        _keycode: v
+        _description: full featured editor like vim using neovim.
+      defender_update:
+        _keycode: f
+        _description: windows defender malware definition updates.
+      melody_scripts:
+        _keycode: m
+        _description: windows bloatware remover + system tweak scripts.
+    DNS:
+      _keycode: D
+      _description: DNS Setup.
+      dnscrypt-proxy2:
+        _keycode: d
+        _description: various setup scripts for security.
+        install:
+          _keycode: i
+      q:
+        _keycode: q
+      massdns:
+        _keycode: m
+    IP:
+      _keycode: I
+    APP:
+      _keycode: A
+    FILE:
+      _keycode: F
+    MONITOR:
+      _keycode: M
+  configure:
+  utils:
+    _keycode: l
+    _description: tui web is web version of the tui app.
+    netstat:
+      _type: toggle
+      _check_cmd: if [ -z ${tui_status_toggle+x} ]; then echo 1 && tui_status_toggle=1; else echo 0 && unset tui_status_toggle; fi
+      _disable_cmd: echo ""
+      _keycode: t
+      _description: "show running port and process."
+      _cmd: $(exec 1>{{ tty }} && watch -C -n 1 -t "netstat -nltp")
+    cat:
+      _keycode: c
+      _description: view log on lvim editor
+      _cmd: cat ./.tui_web/var/log/access.log
+    lvim:
+      _keycode: l
+      _description: view log on lvim editor
+      _cmd: $(exec 1>{{ tty }} && ~/.local/bin/lvim ./.tui_web/var/run/system)
+    top:
+      _type: ["toggle", "overtty"]
+      _check_cmd: if [ -z ${tui_top_toggle+x} ]; then echo 1 && tui_top_toggle=1; else echo 0 && unset tui_top_toggle; fi
+      _disable_cmd: echo ""
+      _keycode: p
+      _description: top using watch.
+      _cmd: $(exec 1>{{ tty }} && watch -C -n 1 -t "top -b") # https://unix.stackexchange.com/a/512979
+    # nano:
+    #   _type: toggle
+    #   _check_cmd: if [ -z ${tui_nano_toggle+x} ]; then echo 1 && tui_nano_toggle=1; else echo 0 && unset tui_nano_toggle; fi
+    #   _disable_cmd: echo ""
+    #   _keycode: o
+    #   _description: nano processor watch.
+    #   _cmd: $(exec 1>{{ tty }} && (IFS=$'\n'; set -o noglob; nano))
+    # darkstatd:
+    #   _type: toggle
+    #   _check_cmd: if [ -z ${tui_darkstatd_toggle+x} ]; then echo 1 && tui_darkstatd_toggle=1; else echo 0 && unset tui_darkstatd_toggle; fi
+    #   _disable_cmd: echo ""
+    #   _keycode: d
+    #   _description: darkstatd show network bandwidth.
+    #   _cmd: sudo darkstat -i eth0

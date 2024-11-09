@@ -1,0 +1,6 @@
+.codebox {
+  width: 90rem;
+  height: 48rem;
+  /* height: auto; */
+  overflow-y: scroll;
+}
