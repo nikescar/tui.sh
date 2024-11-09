@@ -1,0 +1,5 @@
+title: tui.sh
+description: terminal user interface only bash without ncurses.
+show_downloads: true
+google_analytics:
+theme: jekyll-theme-hacker
