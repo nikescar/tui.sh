@@ -31,8 +31,8 @@ esac
 
 BUSYBOX=""
 [[ 1 -lt "$(sed --version|grep version|wc -l)" ]] && BUSYBOX="busybox.exe "
-PGREP="${BUSYBOX}pgrep -f -a " # Linux
-[[ "MinGw" = "${machine}" || "Cygwin" = "${machine}" || "Git" = "${machine}" ]] && PGREP="${BUSYBOX}pgrep -l "
+PGREP="ps ax|grep " # Linux
+# [[ "MinGw" = "${machine}" || "Cygwin" = "${machine}" || "Git" = "${machine}" ]] && PGREP="ps ax|grep "
 
 _regex() { # Usage: _regex "string" "regex"
     
@@ -350,11 +350,11 @@ _main_get_output() { # print output from back screen file
     [[ ${#pidshist[@]} -gt 0 ]] && tmp=$((pididx + 1)) || tmp=0
     [[ -z "${pid}" ]] && ready="[C]lose<done>[Up/Down](${tmp}/${#pidshist[@]})" || ready="[K]ill<${pid}>[Up/Down](${tmp}/${#pidshist[@]})" # show pid
     local mproc_memnu="$ready"
-    tmp=$(echo "${COLUMNS} - ${#mproc_memnu}" | ${BUSYBOX}bc)
+    tmp=$(expr ${COLUMNS} - ${#mproc_memnu})
     local proc_menu="[j/k]("$(( p + 1 ))"/"$(( scr_tn + 1 ))") $(IFS=" "; echo "${blk_descs}")"
     [[ -z "${pid}" ]] && proc_menu="[j/k]("$(( p + 1 ))"/"$(( scr_tn + 1 ))") ${header}"
     [[ $tmp -lt ${#proc_menu} ]] && proc_menu="${proc_menu:0:$((tmp-3))}.. " # cut if oversize
-    tmp=$(echo "${COLUMNS} - ${#proc_menu} - ${#mproc_memnu}" | ${BUSYBOX}bc)
+    tmp=$(expr ${COLUMNS} - ${#proc_menu} - ${#mproc_memnu})
     [[ $tmp -lt 4 ]] && tmp=4
     _status_desc "${proc_menu}${wspaces:0:$tmp}${mproc_memnu}"$'\e[K\e[H' # show current menu description
     _tui_log 0 "$LINENO: scr_k : ${scr_k}, scr_j : ${scr_j}, p : ${p}, scr_tn : ${scr_tn}, scr_tl : ${scr_tl}, m : ${m}"
@@ -365,9 +365,9 @@ _main_get_output() { # print output from back screen file
     [[ -n $pid_web ]] && tmp="[t]web(http://${tui_binding_ip}:${tui_web_port})" 
     sticky_menu="${sticky_menu}${tmp}"
     local dynamic_menu="L${blk_lv}:${blk_name}> ${blk_subms[*]}"
-    tmp=$(echo "${COLUMNS} - ${#sticky_menu}" | ${BUSYBOX}bc)
+    tmp=$(expr ${COLUMNS} - ${#sticky_menu})
     [[ $tmp -lt ${#dynamic_menu} ]] && dynamic_menu="${dynamic_menu:0:$((tmp-3))}.. " # cut if oversize
-    tmp=$(echo "${COLUMNS} - ${#sticky_menu} - ${#dynamic_menu}" | ${BUSYBOX}bc)
+    tmp=$(expr ${COLUMNS} - ${#sticky_menu} - ${#dynamic_menu})
     [[ $tmp -lt 4 ]] && tmp=4
     _status_menu "${dynamic_menu}${wspaces:0:$tmp}${sticky_menu}"$'\e[K\e[H'
     _tui_log 0 "$LINENO: COLUMNS: ${COLUMNS}, sticky_menu: ${#sticky_menu}, dynamic_menu: ${#dynamic_menu}, tmp: ${tmp}"
@@ -679,7 +679,7 @@ srq_name="$(_regex "${root_str}" "\/[^\/]*$")" && srq_name="${srq_name:1}"
 tmp=$(for i in $(cat ${yamlfn_str}|grep "^ *"${srq_name}":"|${BUSYBOX}sed 's/[^ ]//g' | awk '{ print length }'); do echo $(( i % ${tmp} ))|grep 0; done | wc -w)
 _tui_log 0 "found path # : ${tmp}"
 [[ ${tmp} -eq 0 ]] && _tui_log 4 "root path ${root_str} is not found on ${yamlfn_str} file." && exit 1
-# [[ $(echo "${rtime_flt} <= 0" | bc) = 1 || $(echo "${rtime_flt} > 100" | bc) = 1 ]] && _tui_log 4 "rtime should be > 0, < 100" && exit 1 # rtime is in float type 0.0001 ~ 100
+# [[ $(expr "${rtime_flt} <= 0" | bc) = 1 || $(echo "${rtime_flt} > 100" | bc) = 1 ]] && _tui_log 4 "rtime should be > 0, < 100" && exit 1 # rtime is in float type 0.0001 ~ 100
 mode_arr=(single batch tui tui_web tui_web_respond) # mode option in single / batch / tui / tui_web / tui_web_respond
 [[ $(echo "${mode_arr[@]}" | grep -o "${mode_str}" | wc -w) -lt 1 ]] && _tui_log 4 "mode should be in either single, batch, tui, tui_web, tui_web_respond." && exit 1
 # todo : disable git clone, wget, curl in yaml file. and lead msg to use offline file
