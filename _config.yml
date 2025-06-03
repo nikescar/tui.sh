@@ -18,9 +18,9 @@ prev_next_buttons_location: both
 search_enabled: false
 site_author: Woojae, Park
 # logo: 'https://tui.dure.app/assets/css/theme.css'
-site_favicon: 'https://tui.dure.app/assets/img/favicon.ico'
-theme: 'https://tui.dure.app/assets/css/theme.css'
-extra_theme: 'https://tui.dure.app/assets/css/theme_extra.css'
+# site_favicon: 'https://tui.dure.app/assets/img/favicon.ico'
+# theme: 'https://nikescar.github.io/jekyll-theme-rtd/assets/css/theme.css'
+# extra_theme: 'https://nikescar.github.io/jekyll-theme-rtd/assets/css/theme_extra.css'
 prev_next_buttons_location: None
 prev_next_buttons_location: top
 prev_next_buttons_location: bottom
