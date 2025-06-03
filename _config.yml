@@ -1,7 +1,7 @@
 title: tui.sh
 description: terminal user interface only bash without ncurses.
 show_downloads: true
-remote_theme: carlosperate/jekyll-theme-rtd
+remote_theme: nikescar/jekyll-theme-rtd
 plugins:
 - jekyll-remote-theme
 
@@ -15,10 +15,12 @@ edit_on_github: true
 github_docs_folder: false
 sticky_navigation: true
 prev_next_buttons_location: both
-search_enabled: true
+search_enabled: false
 site_author: Woojae, Park
-# logo: 'https://your.url/image.png'
-# site_favicon: 'https://your.url/here.ico'
+# logo: 'https://tui.dure.app/assets/css/theme.css'
+site_favicon: 'https://tui.dure.app/assets/img/favicon.ico'
+theme: 'https://tui.dure.app/assets/css/theme.css'
+extra_theme: 'https://tui.dure.app/assets/css/theme_extra.css'
 prev_next_buttons_location: None
 prev_next_buttons_location: top
 prev_next_buttons_location: bottom
